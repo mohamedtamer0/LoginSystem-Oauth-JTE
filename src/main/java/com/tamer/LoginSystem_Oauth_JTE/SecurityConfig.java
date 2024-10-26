@@ -18,24 +18,24 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/login", "error").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin(from -> from
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard", true)
-                        .permitAll()
-                )
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/login")
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard", true)
-                )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/")
-                        .permitAll());
+            .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers("/", "/login", "/error").permitAll()
+                    .anyRequest().authenticated()
+            )
+            .formLogin(form -> form
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/dashboard", true)
+                    .permitAll()
+            )
+            .oauth2Login(oauth2 -> oauth2
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/dashboard", true)
+            )
+            .logout(logout -> logout
+                    .logoutSuccessUrl("/")
+                    .permitAll()
+            );
 
         return http.build();
     }
@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .password(passwordEncoder().encode("admin123"))
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager();
+
+        return new InMemoryUserDetailsManager(defaultUser);
     }
 }

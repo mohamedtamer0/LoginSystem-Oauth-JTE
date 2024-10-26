@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
+
     @GetMapping("/login")
     public String login(HttpServletRequest request, Model model, String error, String logout) {
 
@@ -14,6 +15,7 @@ public class LoginController {
             model.addAttribute("error", true);
             model.addAttribute("errorMessage", "Invalid username or password");
         }
+
         return "pages/login";
     }
 
@@ -21,5 +23,4 @@ public class LoginController {
     public String home() {
         return "pages/home";
     }
-
 }
